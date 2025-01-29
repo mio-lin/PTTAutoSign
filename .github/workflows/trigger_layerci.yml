@@ -1,17 +1,16 @@
 name: Daily Trigger
 
 on:
-# New changes will trigger LayerCi automatically.
-# No need to trigger again with github action.
-#  push:
-  workflow_dispatch:
+  workflow_dispatch:  # 手動觸發
   schedule:
-    - cron: "30 2 * * *"
+    - cron: "30 2 * * *"  # 每天2:30 UTC 時間觸發
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # 觸發 LayerCI 構建
       - name: trigger LayerCI to build
         env:
           GH_REPO: ${{ github.repository }}
@@ -22,3 +21,26 @@ jobs:
           -H 'Content-Type: application/json' \
           -d '{"branch": "main"}' \
           "https://layerci.com/api/v1/run/${REPO_NAME}?layertoken=${TOKEN}"
+
+      # 設定 Python 環境
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      # 安裝依賴
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install  # 安裝依賴
+
+      # 執行 PTT 自動簽到程式
+      - name: Run the bot script
+        env:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          ptt_id_1: ${{ secrets.PTT_ID_1 }}
+          ptt_id_2: ${{ secrets.PTT_ID_2 }}
+        run: |
+          poetry run python main.py
