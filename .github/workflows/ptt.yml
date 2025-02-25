@@ -19,7 +19,8 @@ jobs:
           python-version: '3.9'
 
       - name: Install Dependencies
-        run: pip install requests PyPtt
+        run: |
+          pip install requests PyPtt
 
       - name: Debug connection to PTT
         run: |
@@ -35,7 +36,8 @@ jobs:
           ptt_id_3: ${{ secrets.PTT_ID_3 }}
           ptt_id_4: ${{ secrets.PTT_ID_4 }}
           ptt_id_5: ${{ secrets.PTT_ID_5 }}
-        run: python main.py  # 正確的 Python 執行方式
+        run: |
+          python main.py
         concurrency:
           group: ptt-signin
           cancel-in-progress: true
