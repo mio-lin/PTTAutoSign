@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: "0 0 * * *"  # 每天 UTC 00:00（台灣 08:00）
   workflow_dispatch:  # 允許手動觸發
-
   push:
     branches-ignore:
       - main  # 避免 push 到 main 觸發 workflow
@@ -12,6 +11,10 @@ on:
 jobs:
   signin:
     runs-on: ubuntu-latest
+
+    concurrency:
+      group: ptt-signin
+      cancel-in-progress: true  # 當前任務運行中時，取消新的運行
 
     steps:
       - name: Checkout Repository
@@ -35,6 +38,3 @@ jobs:
           ptt_id_4: ${{ secrets.PTT_ID_4 }}
           ptt_id_5: ${{ secrets.PTT_ID_5 }}
         run: python main.py  # 正確的 Python 執行方式
-        concurrency:
-  group: ptt-signin
-  cancel-in-progress: true
