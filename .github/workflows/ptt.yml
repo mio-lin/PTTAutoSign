@@ -1,4 +1,41 @@
-- name: Check network connection
-  run: |
-    ping -c 4 140.112.172.2  # 檢查 PTT 伺服器是否能連接
-    curl -I https://www.ptt.cc  # 測試與 PTT 網站的連接
+name: PTT Daily Sign-in
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天 UTC 00:00（台灣 08:00）
+  workflow_dispatch:  # 允許手動觸發
+
+jobs:
+  signin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install requests PyPtt
+
+      - name: Debug connection to PTT
+        run: |
+          curl -v https://www.ptt.cc  # 查看與 PTT 的連接詳情
+          ping -c 4 140.112.172.2  # 測試與 PTT 的連接情況
+
+      - name: Run PTT Sign-in
+        env:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          ptt_id_1: ${{ secrets.PTT_ID_1 }}
+          ptt_id_2: ${{ secrets.PTT_ID_2 }}
+          ptt_id_3: ${{ secrets.PTT_ID_3 }}
+          ptt_id_4: ${{ secrets.PTT_ID_4 }}
+          ptt_id_5: ${{ secrets.PTT_ID_5 }}
+        run: python main.py  # 正確的 Python 執行方式
+        concurrency:
+          group: ptt-signin
+          cancel-in-progress: true
