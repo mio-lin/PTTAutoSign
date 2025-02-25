@@ -1,0 +1,4 @@
+name: Check network connection
+  run: |
+    ping -c 4 140.112.172.2  # 檢查 PTT 伺服器是否能連接
+    curl -I https://www.ptt.cc  # 測試與 PTT 網站的連接
