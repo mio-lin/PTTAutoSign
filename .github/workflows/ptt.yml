@@ -35,7 +35,7 @@ jobs:
           [Peer]
           PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
           Endpoint = ${{ secrets.WG_SERVER_IP }}:3000
-          AllowedIPs = AllowedIPs = 140.112.0.0/16
+          AllowedIPs = 140.112.0.0/16
           PersistentKeepalive = 25" | sudo tee /etc/wireguard/wg0.conf
 
       - name: Start WireGuard VPN
