@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "[Interface]
           PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
-          Address = 192.168.1.10/24
+          Address = 192.168.2.10/24
           DNS = 8.8.8.8
 
           [Peer]
@@ -44,7 +44,7 @@ jobs:
       - name: Verify VPN Connection
         run: |
           sleep 5  # 等待 VPN 穩定連線
-          ping -c 4 192.168.1.3  # 測試是否能連到你的主機
+          ping -c 4 192.168.2.1  # 測試是否能連到你的主機
 
       - name: Run PTT Sign-in
         env:
