@@ -30,14 +30,13 @@ jobs:
           echo "[Interface]
           PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
           Address = 192.168.2.11/32
-          DNS = 8.8.8.8
+          DNS = 192.168.1.3
           FwMark = 3000  # 這行讓 fwmark 變成 3000
-
 
           [Peer]
           PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
           Endpoint = ${{ secrets.WG_SERVER_IP }}:3000
-          AllowedIPs = 0.0.0.0/0
+          AllowedIPs = 140.112.172.0/24, 140.112.175.0/24
           PersistentKeepalive = 25" | sudo tee /etc/wireguard/wg0.conf
 
       - name: Start WireGuard VPN
