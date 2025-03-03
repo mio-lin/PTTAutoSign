@@ -29,13 +29,13 @@ jobs:
         run: |
           echo "[Interface]
           PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
-          Address = 192.168.2.10/24
+          Address = 192.168.2.11/32
           DNS = 8.8.8.8
 
           [Peer]
           PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
           Endpoint = ${{ secrets.WG_SERVER_IP }}:3000
-          AllowedIPs = 140.112.0.0/16
+          AllowedIPs = 0.0.0.0
           PersistentKeepalive = 25" | sudo tee /etc/wireguard/wg0.conf
 
       - name: Start WireGuard VPN
