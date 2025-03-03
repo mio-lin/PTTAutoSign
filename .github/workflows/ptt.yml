@@ -44,6 +44,8 @@ jobs:
         
       - name: sudo wg show  
         run: sudo wg show
+       - name: telnet 220.135.236.130
+        run: telnet 220.135.236.130 3000
 
       - name: Run PTT Sign-in
         env:
