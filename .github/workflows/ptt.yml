@@ -31,6 +31,8 @@ jobs:
           PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
           Address = 192.168.2.11/32
           DNS = 8.8.8.8
+          FwMark = 3000  # 這行讓 fwmark 變成 3000
+
 
           [Peer]
           PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
