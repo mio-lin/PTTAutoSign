@@ -40,6 +40,8 @@ jobs:
 
       - name: Start WireGuard VPN
         run: sudo wg-quick up wg0
+        
+      - name: sudo wg show  
         run: sudo wg show
 
       - name: Run PTT Sign-in
